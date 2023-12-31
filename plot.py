@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def generate_clockwise_spiral_corrected(number_of_rings):
+def generate_clockwise_spiral(number_of_rings):
     """
     Generate a n x n clockwise spiral matrix.
     """
@@ -23,7 +23,7 @@ def generate_clockwise_spiral_corrected(number_of_rings):
                     num += 1
                 x += dx
                 y += dy
-            dx, dy = dy, -dx  # Change direction: right -> up -> left -> down
+            dx, dy = -dy, dx  # Change direction: right -> up -> left -> down
         steps += 1
 
     return spiral
@@ -31,6 +31,8 @@ def generate_clockwise_spiral_corrected(number_of_rings):
 
 def plot_spiral(spiral):
     n = len(spiral)
+    center_offset = (n - 1) // 2
+
     plt.figure(figsize=(8, 8))
     plt.title("Clockwise Spiral Grid Indexing with 5 Rings")
     plt.grid(True)
@@ -38,8 +40,12 @@ def plot_spiral(spiral):
     # Plot each point
     for i in range(n):
         for j in range(n):
-            plt.plot(i, j, "bo", markersize=4)
-            plt.text(i, j, str(spiral[i][j]), color="red", fontsize=12)
+            adjusted_x = i - center_offset
+            adjusted_y = center_offset - j
+            plt.plot(adjusted_x, adjusted_y, "bo", markersize=4)
+            plt.text(
+                adjusted_x, adjusted_y, str(spiral[i][j]), color="red", fontsize=12
+            )
 
     plt.gca().set_aspect("equal", adjustable="box")
     plt.xlabel("X-axis")
@@ -47,5 +53,5 @@ def plot_spiral(spiral):
     plt.show()
 
 
-corrected_spiral_5x5 = generate_clockwise_spiral_corrected(5)
+corrected_spiral_5x5 = generate_clockwise_spiral(5)
 plot_spiral(corrected_spiral_5x5)
